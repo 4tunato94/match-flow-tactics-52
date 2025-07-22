@@ -21,6 +21,26 @@ export function ActionTypeManager() {
     reverseAction: false
   })
   const [editingActionId, setEditingActionId] = useState<string | null>(null)
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+
+  // Lista completa de emojis organizados por categoria
+  const emojiCategories = {
+    'Futebol': ['⚽', '🥅', '🏟️', '🏆', '🥇', '🏅', '🎖️'],
+    'Cartões & Infrações': ['🟨', '🟥', '🔴', '🚩', '✋', '🚑', '⚠️'],
+    'Ações': ['🦵', '👊', '🛡️', '🎯', '⭐', '🔥', '⚡', '💪', '🏃', '⚔️'],
+    'Posições': ['📍', '🏁', '↔️', '↕️', '↗️', '↖️', '↘️', '↙️', '🔄', '🔃'],
+    'Expressões': ['😵', '😤', '😮', '😊', '😢', '😡', '🤔', '😎', '🥳', '😱'],
+    'Esportes': ['🏀', '🏈', '🎾', '🏐', '🏓', '🏸', '🥊', '🥋', '⛳', '🏌️'],
+    'Celebração': ['🎊', '🎉', '🎈', '🎭', '🎪', '🎨', '🎵', '🎶', '🎺', '🎼'],
+    'Símbolos': ['✅', '❌', '❗', '❓', '💯', '🔝', '🆕', '🆒', '🔔', '🔕'],
+    'Animais': ['🦁', '🐅', '🦅', '🐺', '🐉', '🦈', '🐆', '🐂', '🐎', '🦏'],
+    'Natureza': ['🌟', '⭐', '🌙', '☀️', '⚡', '🔥', '💧', '🌪️', '❄️', '🌈'],
+    'Objetos': ['🛡️', '⚔️', '🔨', '🎯', '📱', '💻', '⌚', '🔋', '💡', '🔧'],
+    'Bandeiras': ['🏁', '🏳️', '🏴', '🚩', '🎌', '🏳️‍🌈', '🏴‍☠️'],
+    'Transporte': ['🚗', '🏎️', '🚙', '🚌', '🚎', '🏍️', '🚲', '🛴', '🛵', '🚁'],
+    'Comida': ['🍎', '🍌', '🍊', '🍕', '🍔', '🌭', '🍟', '🍗', '🥖', '🎂'],
+    'Diversos': ['💎', '👑', '🎪', '🎨', '🎭', '🎬', '📸', '🎤', '🎧', '🎮']
+  }
 
   const handleAddActionType = (e: React.FormEvent) => {
     e.preventDefault()
@@ -87,81 +107,50 @@ export function ActionTypeManager() {
             
             <div>
               <Label htmlFor="action-icon">Ícone</Label>
-              <Select
-                value={actionForm.icon}
-                onValueChange={(value) => setActionForm(prev => ({ ...prev, icon: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="⚽">⚽</SelectItem>
-                  <SelectItem value="🥅">🥅</SelectItem>
-                  <SelectItem value="🟨">🟨</SelectItem>
-                  <SelectItem value="🟥">🟥</SelectItem>
-                  <SelectItem value="🔴">🔴</SelectItem>
-                  <SelectItem value="🦵">🦵</SelectItem>
-                  <SelectItem value="🏁">🏁</SelectItem>
-                  <SelectItem value="🚩">🚩</SelectItem>
-                  <SelectItem value="👊">👊</SelectItem>
-                  <SelectItem value="📍">📍</SelectItem>
-                  <SelectItem value="🛡️">🛡️</SelectItem>
-                  <SelectItem value="😵">😵</SelectItem>
-                  <SelectItem value="✋">✋</SelectItem>
-                  <SelectItem value="🚑">🚑</SelectItem>
-                  <SelectItem value="↔️">↔️</SelectItem>
-                  <SelectItem value="🎯">🎯</SelectItem>
-                  <SelectItem value="⭐">⭐</SelectItem>
-                  <SelectItem value="🔥">🔥</SelectItem>
-                  <SelectItem value="⚡">⚡</SelectItem>
-                  <SelectItem value="💪">💪</SelectItem>
-                  <SelectItem value="🏃">🏃</SelectItem>
-                  <SelectItem value="⚔️">⚔️</SelectItem>
-                  <SelectItem value="🎊">🎊</SelectItem>
-                  <SelectItem value="🎈">🎈</SelectItem>
-                  <SelectItem value="🎉">🎉</SelectItem>
-                  <SelectItem value="🏆">🏆</SelectItem>
-                  <SelectItem value="🥇">🥇</SelectItem>
-                  <SelectItem value="🎖️">🎖️</SelectItem>
-                  <SelectItem value="🏅">🏅</SelectItem>
-                  <SelectItem value="🎭">🎭</SelectItem>
-                  <SelectItem value="🎪">🎪</SelectItem>
-                  <SelectItem value="🎨">🎨</SelectItem>
-                  <SelectItem value="🎸">🎸</SelectItem>
-                  <SelectItem value="🎤">🎤</SelectItem>
-                  <SelectItem value="🎵">🎵</SelectItem>
-                  <SelectItem value="🎶">🎶</SelectItem>
-                  <SelectItem value="🎺">🎺</SelectItem>
-                  <SelectItem value="🎼">🎼</SelectItem>
-                  <SelectItem value="🎹">🎹</SelectItem>
-                  <SelectItem value="🥁">🥁</SelectItem>
-                  <SelectItem value="🎷">🎷</SelectItem>
-                  <SelectItem value="🎻">🎻</SelectItem>
-                  <SelectItem value="🎯">🎯</SelectItem>
-                  <SelectItem value="🏀">🏀</SelectItem>
-                  <SelectItem value="🏈">🏈</SelectItem>
-                  <SelectItem value="🎾">🎾</SelectItem>
-                  <SelectItem value="🏐">🏐</SelectItem>
-                  <SelectItem value="🏓">🏓</SelectItem>
-                  <SelectItem value="🏸">🏸</SelectItem>
-                  <SelectItem value="🥊">🥊</SelectItem>
-                  <SelectItem value="🥋">🥋</SelectItem>
-                  <SelectItem value="🎿">🎿</SelectItem>
-                  <SelectItem value="⛷️">⛷️</SelectItem>
-                  <SelectItem value="🏂">🏂</SelectItem>
-                  <SelectItem value="🏄">🏄</SelectItem>
-                  <SelectItem value="🚴">🚴</SelectItem>
-                  <SelectItem value="🏊">🏊</SelectItem>
-                  <SelectItem value="🤸">🤸</SelectItem>
-                  <SelectItem value="🤾">🤾</SelectItem>
-                  <SelectItem value="🤽">🤽</SelectItem>
-                  <SelectItem value="🤺">🤺</SelectItem>
-                  <SelectItem value="🏇">🏇</SelectItem>
-                  <SelectItem value="🧗">🧗</SelectItem>
-                  <SelectItem value="🏌️">🏌️</SelectItem>
-                  <SelectItem value="🏄‍♂️">🏄‍♂️</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="w-12 h-12 border rounded flex items-center justify-center text-2xl bg-muted">
+                    {actionForm.icon}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                    className="flex-1"
+                  >
+                    Selecionar Emoji
+                  </Button>
+                </div>
+                
+                {showEmojiPicker && (
+                  <div className="border rounded-lg p-4 bg-background max-h-96 overflow-y-auto">
+                    <div className="space-y-4">
+                      {Object.entries(emojiCategories).map(([category, emojis]) => (
+                        <div key={category}>
+                          <h5 className="font-semibold text-sm mb-2 text-muted-foreground">{category}</h5>
+                          <div className="grid grid-cols-8 gap-2">
+                            {emojis.map((emoji) => (
+                              <Button
+                                key={emoji}
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="w-10 h-10 p-0 text-lg hover:bg-accent"
+                                onClick={() => {
+                                  setActionForm(prev => ({ ...prev, icon: emoji }))
+                                  setShowEmojiPicker(false)
+                                }}
+                              >
+                                {emoji}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="flex items-center space-x-2">
