@@ -109,14 +109,15 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
                     id="import-text"
                     value={importText}
                     onChange={(e) => setImportText(e.target.value)}
-                    placeholder="1 Goleiro&#10;2 Zagueiro Central&#10;3 Lateral Direito&#10;..."
+                    placeholder="1 Lionel Messi Atacante&#10;2 Cristiano Ronaldo Atacante&#10;3 Neymar Junior Meio-campo&#10;..."
                     rows={10}
                     className="font-mono text-sm"
                   />
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  <p>Formato: <code>Número Nome do Jogador</code></p>
-                  <p>Exemplo: <code>10 Lionel Messi</code></p>
+                  <p>Formato: <code>Número Nome Posição</code></p>
+                  <p>Exemplo: <code>10 Lionel Messi Atacante</code></p>
+                  <p>Posições: Goleiro, Zagueiro, Lateral, Volante, Meio-campo, Atacante</p>
                 </div>
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline" onClick={() => setIsImportDialogOpen(false)}>

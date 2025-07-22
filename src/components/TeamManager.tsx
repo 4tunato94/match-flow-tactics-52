@@ -66,14 +66,29 @@ export function TeamManager() {
     const lines = text.split('\n').filter(line => line.trim())
     const players: Player[] = lines.map((line, index) => {
       const parts = line.trim().split(/\s+/)
-      const number = parseInt(parts[0]) || (index + 1)
-      const name = parts.slice(1).join(' ') || `Jogador ${number}`
       
-      return {
-        id: `${teamId}-${number}`,
-        number,
-        name,
-        position: 'Campo'
+      if (parts.length < 3) {
+        // Formato antigo: apenas número e nome
+        const number = parseInt(parts[0]) || (index + 1)
+        const name = parts.slice(1).join(' ') || `Jogador ${number}`
+        return {
+          id: `${teamId}-${number}`,
+          number,
+          name,
+          position: 'Campo'
+        }
+      } else {
+        // Formato novo: número, nome, posição
+        const number = parseInt(parts[0]) || (index + 1)
+        const position = parts[parts.length - 1] // Última palavra é a posição
+        const name = parts.slice(1, -1).join(' ') || `Jogador ${number}` // Palavras do meio são o nome
+        
+        return {
+          id: `${teamId}-${number}`,
+          number,
+          name,
+          position
+        }
       }
     })
     
