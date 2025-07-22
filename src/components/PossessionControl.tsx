@@ -91,7 +91,7 @@ export function PossessionControl() {
                 variant="teamA"
                 size="xl"
                 className={cn(
-                  "transition-all duration-200",
+                  "transition-all duration-200 flex items-center justify-center",
                   currentMatch.currentPossession === currentMatch.teamA.id && 
                   "ring-4 ring-team-a/50 scale-105"
                 )}
@@ -101,16 +101,30 @@ export function PossessionControl() {
                 }}
                 onClick={() => setPossession(currentMatch.teamA.id)}
               >
-                <div className="text-center">
+                {currentMatch.teamA.logoUrl ? (
+                  <img 
+                    src={currentMatch.teamA.logoUrl} 
+                    alt={`${currentMatch.teamA.name} logo`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                      const parent = target.parentElement
+                      if (parent) {
+                        parent.innerHTML = `<div class="font-bold text-sm px-2">${currentMatch.teamA.name}</div>`
+                      }
+                    }}
+                  />
+                ) : (
                   <div className="font-bold text-sm px-2">{currentMatch.teamA.name}</div>
-                </div>
+                )}
               </Button>
               
               <Button
                 variant="teamB"
                 size="xl"
                 className={cn(
-                  "transition-all duration-200",
+                  "transition-all duration-200 flex items-center justify-center",
                   currentMatch.currentPossession === currentMatch.teamB.id && 
                   "ring-4 ring-team-b/50 scale-105"
                 )}
@@ -120,9 +134,23 @@ export function PossessionControl() {
                 }}
                 onClick={() => setPossession(currentMatch.teamB.id)}
               >
-                <div className="text-center">
+                {currentMatch.teamB.logoUrl ? (
+                  <img 
+                    src={currentMatch.teamB.logoUrl} 
+                    alt={`${currentMatch.teamB.name} logo`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                      const parent = target.parentElement
+                      if (parent) {
+                        parent.innerHTML = `<div class="font-bold text-sm px-2">${currentMatch.teamB.name}</div>`
+                      }
+                    }}
+                  />
+                ) : (
                   <div className="font-bold text-sm px-2">{currentMatch.teamB.name}</div>
-                </div>
+                )}
               </Button>
             </div>
             

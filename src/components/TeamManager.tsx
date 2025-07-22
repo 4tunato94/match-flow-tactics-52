@@ -16,7 +16,8 @@ export function TeamManager() {
   const [formData, setFormData] = useState({
     name: '',
     primaryColor: '#3B82F6',
-    secondaryColor: '#1E40AF'
+    secondaryColor: '#1E40AF',
+    logoUrl: ''
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,6 +26,7 @@ export function TeamManager() {
     if (editingTeam) {
       updateTeam(editingTeam.id, {
         name: formData.name,
+        logoUrl: formData.logoUrl,
         colors: {
           primary: formData.primaryColor,
           secondary: formData.secondaryColor
@@ -34,6 +36,7 @@ export function TeamManager() {
       const newTeam: Team = {
         id: Date.now().toString(),
         name: formData.name,
+        logoUrl: formData.logoUrl,
         colors: {
           primary: formData.primaryColor,
           secondary: formData.secondaryColor
@@ -47,7 +50,7 @@ export function TeamManager() {
   }
 
   const resetForm = () => {
-    setFormData({ name: '', primaryColor: '#3B82F6', secondaryColor: '#1E40AF' })
+    setFormData({ name: '', primaryColor: '#3B82F6', secondaryColor: '#1E40AF', logoUrl: '' })
     setEditingTeam(null)
     setIsDialogOpen(false)
   }
@@ -57,7 +60,8 @@ export function TeamManager() {
     setFormData({
       name: team.name,
       primaryColor: team.colors.primary,
-      secondaryColor: team.colors.secondary
+      secondaryColor: team.colors.secondary,
+      logoUrl: team.logoUrl || ''
     })
     setIsDialogOpen(true)
   }
@@ -123,6 +127,16 @@ export function TeamManager() {
                   required
                 />
               </div>
+
+              <div>
+                <Label htmlFor="logoUrl">URL do Escudo do Time (Opcional)</Label>
+                <Input
+                  id="logoUrl"
+                  value={formData.logoUrl}
+                  onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
+                  placeholder="Ex: https://exemplo.com/escudo.png"
+                />
+              </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -181,8 +195,20 @@ export function TeamManager() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center space-x-2">
+                  {team.logoUrl ? (
+                    <img 
+                      src={team.logoUrl} 
+                      alt={`${team.name} logo`}
+                      className="w-8 h-8 object-contain rounded"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        target.nextElementSibling?.classList.remove('hidden')
+                      }}
+                    />
+                  ) : null}
                   <div 
-                    className="w-4 h-4 rounded-full"
+                    className={`w-4 h-4 rounded-full ${team.logoUrl ? 'hidden' : ''}`}
                     style={{ backgroundColor: team.colors.primary }}
                   />
                   <span>{team.name}</span>

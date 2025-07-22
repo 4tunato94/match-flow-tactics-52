@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Target } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -94,9 +93,24 @@ export function ActionPanel() {
     }
   }
 
-  const possessingTeam = currentMatch.currentPossession === currentMatch.teamA.id 
-    ? currentMatch.teamA 
-    : currentMatch.teamB
+  // Determinar qual time deve aparecer no seletor de jogadores
+  const getTeamForPlayerSelection = () => {
+    if (!selectedAction || !currentMatch.currentPossession) return null
+    
+    // Se a ação é reversa, mostrar jogadores do time adversário
+    if (selectedAction.reverseAction) {
+      return currentMatch.currentPossession === currentMatch.teamA.id 
+        ? currentMatch.teamB 
+        : currentMatch.teamA
+    }
+    
+    // Caso normal: mostrar jogadores do time com posse
+    return currentMatch.currentPossession === currentMatch.teamA.id 
+      ? currentMatch.teamA 
+      : currentMatch.teamB
+  }
+
+  const teamForPlayerSelection = getTeamForPlayerSelection()
 
   return (
     <div className="space-y-4">
@@ -121,7 +135,7 @@ export function ActionPanel() {
                     className="flex flex-col items-center justify-center p-2 h-16 text-center"
                   >
                     <span className="text-base">{actionType.icon}</span>
-                    <span className="text-xs leading-tight">{actionType.name}</span>
+                    <span className="text-xs leading-tight truncate w-full">{actionType.name}</span>
                   </Button>
                 ))}
               </div>
@@ -135,9 +149,9 @@ export function ActionPanel() {
       </Card>
 
       {/* Seletor de Jogador */}
-      {selectedAction && possessingTeam && (
+      {selectedAction && teamForPlayerSelection && (
         <PlayerSelector
-          team={possessingTeam}
+          team={teamForPlayerSelection}
           action={selectedAction}
           onSelectPlayer={handlePlayerAction}
           onCancel={() => setSelectedAction(null)}

@@ -106,12 +106,16 @@ export const useFutebolStore = create<FutebolState>()(
       },
       
       loadSavedGame: (game) => {
-        // Convert the saved game to a current match
+        // Convert the saved game to a current match, updating teams with current data
+        const state = get()
+        const currentTeamA = state.teams.find(t => t.id === game.teamA.id) || game.teamA
+        const currentTeamB = state.teams.find(t => t.id === game.teamB.id) || game.teamB
+        
         set({
           currentMatch: {
             id: game.id,
-            teamA: game.teamA,
-            teamB: game.teamB,
+            teamA: currentTeamA,
+            teamB: currentTeamB,
             actions: [...game.actions], // Create a new array to avoid reference issues
             startTime: new Date(game.startTime),
             currentTime: game.duration,

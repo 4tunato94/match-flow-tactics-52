@@ -9,6 +9,7 @@ export interface Team {
   id: string
   name: string
   logo?: string
+  logoUrl?: string
   colors: {
     primary: string
     secondary: string
