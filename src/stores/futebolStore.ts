@@ -230,10 +230,35 @@ export const useFutebolStore = create<FutebolState>()(
           timestamp: state.currentMatch.currentTime
         }
         
+        const actions = [newAction]
+        
+        // Se a ação tem uma contra-ação, adicionar automaticamente
+        if (action.type === 'specific' && action.actionName) {
+          const actionType = state.actionTypes.find(at => at.name === action.actionName)
+          if (actionType?.counterAction) {
+            const counterActionType = state.actionTypes.find(at => at.id === actionType.counterAction)
+            if (counterActionType) {
+              const oppositeTeamId = action.teamId === state.currentMatch.teamA.id 
+                ? state.currentMatch.teamB.id 
+                : state.currentMatch.teamA.id
+                
+              const counterAction: GameAction = {
+                id: (Date.now() + 1).toString(),
+                type: 'specific',
+                teamId: oppositeTeamId,
+                zone: action.zone,
+                timestamp: state.currentMatch.currentTime,
+                actionName: counterActionType.name
+              }
+              actions.push(counterAction)
+            }
+          }
+        }
+        
         return {
           currentMatch: {
             ...state.currentMatch,
-            actions: [...state.currentMatch.actions, newAction]
+            actions: [...state.currentMatch.actions, ...actions]
           }
         }
       }),

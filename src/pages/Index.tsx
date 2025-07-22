@@ -36,17 +36,21 @@ const Index = () => {
                 <Minimize className="h-4 w-4" />
               </Button>
             </div>
+            {/* Container principal otimizado para mobile em paisagem */}
             <div className="flex-1 relative overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center p-2">
-                <div className="w-full h-full max-w-none overflow-hidden">
-                  <FieldGrid isFullscreen />
+              <div className="absolute inset-0 p-1 landscape:p-0">
+                <div className="w-full h-full flex items-center justify-center">
+                  {/* Campo com scroll horizontal em mobile paisagem */}
+                  <div className="w-full h-full landscape:w-[150%] landscape:h-[120%] landscape:max-w-[150vw] landscape:max-h-[120vh] overflow-auto">
+                    <FieldGrid isFullscreen />
+                  </div>
                 </div>
               </div>
             </div>
             
-            {/* Painel lateral deslizante otimizado para mobile */}
+            {/* Painel lateral deslizante otimizado para mobile com scroll */}
             <SlidingPanel isFullscreen={true}>
-              <div className="space-y-4 h-full overflow-y-auto">
+              <div className="space-y-4 h-full overflow-y-auto pb-4">
                 <PossessionControl />
                 <ActionPanel />
                 {currentMatch && <StatsPanel game={currentMatch} />}

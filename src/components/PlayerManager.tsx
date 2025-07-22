@@ -32,8 +32,8 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
   const [importText, setImportText] = useState('')
   const [playerForm, setPlayerForm] = useState({
     number: '',
-    name: '',
-    position: 'Goleiro'
+    position: 'Goleiro',
+    name: ''
   })
 
   const handleAddPlayer = (e: React.FormEvent) => {
@@ -61,7 +61,7 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
   }
 
   const resetPlayerForm = () => {
-    setPlayerForm({ number: '', name: '', position: 'Goleiro' })
+    setPlayerForm({ number: '', position: 'Goleiro', name: '' })
     setEditingPlayer(null)
     setIsPlayerDialogOpen(false)
   }
@@ -70,8 +70,8 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
     setEditingPlayer(player)
     setPlayerForm({
       number: player.number.toString(),
-      name: player.name,
-      position: player.position
+      position: player.position,
+      name: player.name
     })
     setIsPlayerDialogOpen(true)
   }

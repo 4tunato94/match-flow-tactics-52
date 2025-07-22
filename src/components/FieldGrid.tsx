@@ -52,7 +52,7 @@ export function FieldGrid({ isFullscreen = false }: FieldGridProps) {
     <div className={cn(
       "relative rounded-xl overflow-hidden shadow-field",
       isFullscreen 
-        ? "w-full h-full min-h-0 landscape:aspect-[16/9] portrait:aspect-[4/3]" 
+        ? "w-full h-full min-h-0 min-w-0 landscape:min-w-[800px] landscape:min-h-[500px]" 
         : "aspect-[3/2] w-full max-w-4xl mx-auto"
     )}>
       {/* Campo de fundo */}
