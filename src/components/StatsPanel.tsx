@@ -131,7 +131,7 @@ ${Object.entries(stats.specificActions)
                   <div className="font-semibold text-team-a">
                     {counts.teamA}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm" style={{ color: '#000000' }}>
                     {action}
                   </div>
                   <div className="font-semibold text-team-b">

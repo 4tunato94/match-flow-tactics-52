@@ -10,7 +10,7 @@ import { FieldGrid } from '@/components/FieldGrid'
 import { PossessionControl } from '@/components/PossessionControl'
 import { ActionPanel } from '@/components/ActionPanel'
 import { SlidingPanel } from '@/components/SlidingPanel'
-import { StatsPanel } from '@/components/StatsPanel'
+import { StatsHeatMapTabs } from '@/components/StatsHeatMapTabs'
 import { GameHistory } from '@/components/GameHistory'
 import { ActionTypeManager } from '@/components/ActionTypeManager'
 import { ThemeToggle } from '@/components/ThemeToggle'
@@ -53,7 +53,7 @@ const Index = () => {
               <div className="space-y-4 h-full overflow-y-auto pb-4">
                 <PossessionControl />
                 <ActionPanel />
-                {currentMatch && <StatsPanel game={currentMatch} />}
+                {currentMatch && <StatsHeatMapTabs game={currentMatch} />}
               </div>
             </SlidingPanel>
           </div>

@@ -17,7 +17,8 @@ export function ActionTypeManager() {
     name: '',
     icon: '⚽',
     requiresPlayer: true,
-    counterAction: 'none'
+    counterAction: 'none',
+    reverseAction: false
   })
   const [editingActionId, setEditingActionId] = useState<string | null>(null)
 
@@ -29,7 +30,8 @@ export function ActionTypeManager() {
         name: actionForm.name,
         icon: actionForm.icon,
         requiresPlayer: actionForm.requiresPlayer,
-        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined
+        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined,
+        reverseAction: actionForm.reverseAction
       })
       setEditingActionId(null)
     } else {
@@ -38,13 +40,14 @@ export function ActionTypeManager() {
         name: actionForm.name,
         icon: actionForm.icon,
         requiresPlayer: actionForm.requiresPlayer,
-        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined
+        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined,
+        reverseAction: actionForm.reverseAction
       }
       
       addActionType(newActionType)
     }
     
-    setActionForm({ name: '', icon: '⚽', requiresPlayer: true, counterAction: 'none' })
+    setActionForm({ name: '', icon: '⚽', requiresPlayer: true, counterAction: 'none', reverseAction: false })
   }
 
   const handleEditAction = (actionType: ActionType) => {
@@ -52,7 +55,8 @@ export function ActionTypeManager() {
       name: actionType.name,
       icon: actionType.icon,
       requiresPlayer: actionType.requiresPlayer,
-      counterAction: actionType.counterAction || 'none'
+      counterAction: actionType.counterAction || 'none',
+      reverseAction: actionType.reverseAction || false
     })
     setEditingActionId(actionType.id)
   }
@@ -134,6 +138,15 @@ export function ActionTypeManager() {
               </Select>
             </div>
             
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="reverse-action"
+                checked={actionForm.reverseAction}
+                onCheckedChange={(checked) => setActionForm(prev => ({ ...prev, reverseAction: checked }))}
+              />
+              <Label htmlFor="reverse-action">Ação reversa (registra no time adversário)</Label>
+            </div>
+            
             <Button type="submit" variant="action" className="w-full">
               <Plus className="h-4 w-4 mr-2" />
               {editingActionId ? 'Atualizar Ação' : 'Adicionar Ação'}
@@ -151,9 +164,12 @@ export function ActionTypeManager() {
                   {actionType.requiresPlayer && (
                     <span className="text-xs bg-muted px-2 py-1 rounded">Jogador</span>
                   )}
-                  {actionType.counterAction && (
-                    <span className="text-xs bg-accent px-2 py-1 rounded">Contra-ação</span>
-                  )}
+                   {actionType.counterAction && (
+                     <span className="text-xs bg-accent px-2 py-1 rounded">Contra-ação</span>
+                   )}
+                   {actionType.reverseAction && (
+                     <span className="text-xs bg-destructive text-destructive-foreground px-2 py-1 rounded">Reversa</span>
+                   )}
                 </div>
                 <div className="flex space-x-2">
                   <Button

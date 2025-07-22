@@ -55,7 +55,7 @@ const defaultActionTypes: ActionType[] = [
   { id: '9', name: 'Lateral', requiresPlayer: true, icon: '↔️' },
   { id: '10', name: 'Desarme', requiresPlayer: true, icon: '🦵' },
   { id: '11', name: 'Chute Bloqueado', requiresPlayer: true, icon: '🛡️' },
-  { id: '12', name: 'Gol Contra', requiresPlayer: true, icon: '😵' },
+  { id: '12', name: 'Gol Contra', requiresPlayer: true, icon: '😵', reverseAction: true },
   { id: '13', name: 'Mão na Bola', requiresPlayer: true, icon: '✋' },
   { id: '14', name: 'Falta Sofrida', requiresPlayer: false, icon: '🚑' },
 ]

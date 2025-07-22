@@ -102,8 +102,7 @@ export function PossessionControl() {
                 onClick={() => setPossession(currentMatch.teamA.id)}
               >
                 <div className="text-center">
-                  <div className="font-bold">{currentMatch.teamA.name}</div>
-                  <div className="text-sm opacity-90">Time A</div>
+                  <div className="font-bold text-sm px-2">{currentMatch.teamA.name}</div>
                 </div>
               </Button>
               
@@ -122,8 +121,7 @@ export function PossessionControl() {
                 onClick={() => setPossession(currentMatch.teamB.id)}
               >
                 <div className="text-center">
-                  <div className="font-bold">{currentMatch.teamB.name}</div>
-                  <div className="text-sm opacity-90">Time B</div>
+                  <div className="font-bold text-sm px-2">{currentMatch.teamB.name}</div>
                 </div>
               </Button>
             </div>

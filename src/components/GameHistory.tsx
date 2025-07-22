@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { useFutebolStore } from '@/stores/futebolStore'
-import { StatsPanel } from './StatsPanel'
-import { HeatMap } from './HeatMap'
+import { StatsHeatMapTabs } from './StatsHeatMapTabs'
 import { GameActionsList } from './GameActionsList'
 import { SavedGame } from '@/types/futebol'
 
@@ -109,10 +108,7 @@ export function GameHistory() {
                           </div>
                           
                           {activeTab === 'stats' ? (
-                            <>
-                              <StatsPanel game={selectedGame} />
-                              <HeatMap game={selectedGame} />
-                            </>
+                            <StatsHeatMapTabs game={selectedGame} />
                           ) : (
                             <GameActionsList game={selectedGame} />
                           )}

@@ -36,17 +36,13 @@ export function PlayerSelector({ team, action, onSelectPlayer, onCancel }: Playe
                   variant="outline"
                   size="sm"
                   onClick={() => onSelectPlayer(player.id)}
-                  className="justify-start"
+                  className="justify-center h-16"
                 >
                   <div 
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white mr-2"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white"
                     style={{ backgroundColor: team.colors.primary }}
                   >
                     {player.number}
-                  </div>
-                  <div className="text-left">
-                    <div className="font-medium text-xs">{player.name}</div>
-                    <div className="text-xs text-muted-foreground">{player.position}</div>
                   </div>
                 </Button>
               ))}

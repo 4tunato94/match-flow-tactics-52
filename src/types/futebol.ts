@@ -43,6 +43,7 @@ export interface ActionType {
   requiresPlayer: boolean
   icon: string
   counterAction?: string // ID da ação que deve ser registrada no time adversário
+  reverseAction?: boolean // Se true, registra a ação no time adversário ao invés do time com posse
 }
 
 export interface ZoneStats {
