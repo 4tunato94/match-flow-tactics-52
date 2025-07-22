@@ -159,6 +159,17 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
                 </div>
                 
                 <div>
+                  <Label htmlFor="name">Nome</Label>
+                  <Input
+                    id="name"
+                    value={playerForm.name}
+                    onChange={(e) => setPlayerForm(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Nome do jogador"
+                    required
+                  />
+                </div>
+                
+                <div>
                   <Label htmlFor="position">Posição</Label>
                   <Select
                     value={playerForm.position}
@@ -175,17 +186,6 @@ export function PlayerManager({ team, onImportPlayers }: PlayerManagerProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="name">Nome</Label>
-                  <Input
-                    id="name"
-                    value={playerForm.name}
-                    onChange={(e) => setPlayerForm(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Nome do jogador"
-                    required
-                  />
                 </div>
                 
                 <div className="flex justify-end space-x-2">
