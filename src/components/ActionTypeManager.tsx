@@ -17,7 +17,7 @@ export function ActionTypeManager() {
     name: '',
     icon: '⚽',
     requiresPlayer: true,
-    counterAction: ''
+    counterAction: 'none'
   })
   const [editingActionId, setEditingActionId] = useState<string | null>(null)
 
@@ -29,7 +29,7 @@ export function ActionTypeManager() {
         name: actionForm.name,
         icon: actionForm.icon,
         requiresPlayer: actionForm.requiresPlayer,
-        counterAction: actionForm.counterAction || undefined
+        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined
       })
       setEditingActionId(null)
     } else {
@@ -38,13 +38,13 @@ export function ActionTypeManager() {
         name: actionForm.name,
         icon: actionForm.icon,
         requiresPlayer: actionForm.requiresPlayer,
-        counterAction: actionForm.counterAction || undefined
+        counterAction: actionForm.counterAction === 'none' ? undefined : actionForm.counterAction || undefined
       }
       
       addActionType(newActionType)
     }
     
-    setActionForm({ name: '', icon: '⚽', requiresPlayer: true, counterAction: '' })
+    setActionForm({ name: '', icon: '⚽', requiresPlayer: true, counterAction: 'none' })
   }
 
   const handleEditAction = (actionType: ActionType) => {
@@ -52,7 +52,7 @@ export function ActionTypeManager() {
       name: actionType.name,
       icon: actionType.icon,
       requiresPlayer: actionType.requiresPlayer,
-      counterAction: actionType.counterAction || ''
+      counterAction: actionType.counterAction || 'none'
     })
     setEditingActionId(actionType.id)
   }
@@ -122,7 +122,7 @@ export function ActionTypeManager() {
                   <SelectValue placeholder="Selecione uma ação relacionada" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Nenhuma</SelectItem>
+                  <SelectItem value="none">Nenhuma</SelectItem>
                   {actionTypes
                     .filter(at => at.id !== editingActionId) // Não mostrar a própria ação
                     .map((actionType) => (
