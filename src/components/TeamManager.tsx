@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Edit, Trash, Users, Upload } from 'lucide-react'
+import { Plus, Edit, Trash, Users, Upload, Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -17,16 +17,24 @@ export function TeamManager() {
     name: '',
     primaryColor: '#3B82F6',
     secondaryColor: '#1E40AF',
+    logoFile: null as File | null,
     logoUrl: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    let logoUrl = formData.logoUrl
+    
+    // Se há um arquivo de logo, converter para base64
+    if (formData.logoFile) {
+      logoUrl = await convertFileToBase64(formData.logoFile)
+    }
     
     if (editingTeam) {
       updateTeam(editingTeam.id, {
         name: formData.name,
-        logoUrl: formData.logoUrl,
+        logoUrl: logoUrl,
         colors: {
           primary: formData.primaryColor,
           secondary: formData.secondaryColor
@@ -36,7 +44,7 @@ export function TeamManager() {
       const newTeam: Team = {
         id: Date.now().toString(),
         name: formData.name,
-        logoUrl: formData.logoUrl,
+        logoUrl: logoUrl,
         colors: {
           primary: formData.primaryColor,
           secondary: formData.secondaryColor
@@ -49,8 +57,17 @@ export function TeamManager() {
     resetForm()
   }
 
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
   const resetForm = () => {
-    setFormData({ name: '', primaryColor: '#3B82F6', secondaryColor: '#1E40AF', logoUrl: '' })
+    setFormData({ name: '', primaryColor: '#3B82F6', secondaryColor: '#1E40AF', logoFile: null, logoUrl: '' })
     setEditingTeam(null)
     setIsDialogOpen(false)
   }
@@ -61,6 +78,7 @@ export function TeamManager() {
       name: team.name,
       primaryColor: team.colors.primary,
       secondaryColor: team.colors.secondary,
+      logoFile: null,
       logoUrl: team.logoUrl || ''
     })
     setIsDialogOpen(true)
@@ -129,13 +147,58 @@ export function TeamManager() {
               </div>
 
               <div>
-                <Label htmlFor="logoUrl">URL do Escudo do Time (Opcional)</Label>
-                <Input
-                  id="logoUrl"
-                  value={formData.logoUrl}
-                  onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
-                  placeholder="Ex: https://exemplo.com/escudo.png"
-                />
+                <Label htmlFor="logoFile">Escudo do Time</Label>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <Input
+                      id="logoFile"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null
+                        setFormData(prev => ({ ...prev, logoFile: file, logoUrl: '' }))
+                      }}
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => document.getElementById('logoFile')?.click()}
+                    >
+                      <Image className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  {/* Preview da imagem */}
+                  {(formData.logoFile || formData.logoUrl) && (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-12 h-12 border rounded flex items-center justify-center bg-muted">
+                        {formData.logoFile ? (
+                          <img 
+                            src={URL.createObjectURL(formData.logoFile)} 
+                            alt="Preview"
+                            className="w-10 h-10 object-contain rounded"
+                          />
+                        ) : formData.logoUrl ? (
+                          <img 
+                            src={formData.logoUrl} 
+                            alt="Preview"
+                            className="w-10 h-10 object-contain rounded"
+                          />
+                        ) : null}
+                      </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setFormData(prev => ({ ...prev, logoFile: null, logoUrl: '' }))}
+                      >
+                        Remover
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
