@@ -12,6 +12,7 @@ import { ActionType } from '@/types/futebol'
 
 export function ActionTypeManager() {
   const { actionTypes, addActionType, deleteActionType, updateActionType } = useFutebolStore()
+  
   const [actionForm, setActionForm] = useState({
     name: '',
     icon: '⚽',

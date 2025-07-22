@@ -22,7 +22,7 @@ const buttonVariants = cva(
         teamA: "bg-team-a text-white hover:bg-team-a/90 shadow-button",
         teamB: "bg-team-b text-white hover:bg-team-b/90 shadow-button",
         zone: "bg-transparent border-2 border-field-line/30 hover:bg-zone-hover hover:border-field-line transition-all duration-200",
-        action: "bg-gradient-primary text-primary-foreground hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+        action: "bg-primary text-primary-foreground hover:bg-primary-glow hover:shadow-lg transform hover:scale-105 transition-all duration-200"
       },
       size: {
         default: "h-10 px-4 py-2",
