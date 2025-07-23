@@ -116,26 +116,26 @@ export function ActionPanel() {
     <div className="space-y-4">
       {currentMatch.currentPossession ? (
         <div className="space-y-4">
-          <div className="flex items-center space-x-2 mb-3">
+          <div className="flex items-center space-x-3 mb-4">
             <Grid3X3 className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Ações Específicas</h3>
+            <h3 className="font-semibold text-lg ios-text-fixed">Ações Específicas</h3>
           </div>
           
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {actionTypes.map((actionType) => (
               <Button
                 key={actionType.id}
                 variant="outline"
                 onClick={() => handleActionClick(actionType)}
                 className={cn(
-                  "h-20 rounded-2xl flex flex-col items-center justify-center p-3",
+                  "h-24 rounded-2xl flex flex-col items-center justify-center p-4 touch-target no-select",
                   "border-2 border-border/50 hover:border-primary/50",
                   "transition-all duration-200 active:scale-[0.95]",
                   "bg-card hover:bg-accent"
                 )}
               >
-                <span className="text-2xl mb-1">{actionType.icon}</span>
-                <span className="text-xs font-medium text-center leading-tight">
+                <span className="text-3xl mb-2">{actionType.icon}</span>
+                <span className="text-sm font-medium text-center leading-tight ios-text-wrap">
                   {actionType.name}
                 </span>
               </Button>
@@ -143,9 +143,9 @@ export function ActionPanel() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-8">
+        <div className="text-center py-12">
           <Target className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground ios-text-wrap">
             Selecione a posse de bola para registrar ações
           </p>
         </div>

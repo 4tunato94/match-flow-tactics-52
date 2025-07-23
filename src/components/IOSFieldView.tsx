@@ -28,14 +28,14 @@ export function IOSFieldView() {
   return (
     <div className="flex flex-col h-full">
       {/* Timer and Controls */}
-      <div className="bg-card/50 backdrop-blur-sm border-b border-border/50 px-4 py-3">
-        <div className="flex items-center justify-between">
+      <div className="bg-card/50 backdrop-blur-sm border-b border-border/50 px-5 py-4">
+        <div className="flex items-center justify-between min-h-[44px]">
           <div className="flex items-center space-x-3">
             <Button
               variant="outline"
               size="icon"
               onClick={togglePlayPause}
-              className="h-10 w-10 rounded-full"
+              className="h-12 w-12 rounded-full touch-target"
             >
               {currentMatch.isPlaying ? (
                 <Pause className="h-5 w-5" />
@@ -44,7 +44,7 @@ export function IOSFieldView() {
               )}
             </Button>
             
-            <div className="text-2xl font-mono font-bold">
+            <div className="text-3xl font-mono font-bold ios-text-fixed">
               {formatTime(timer)}
             </div>
             
@@ -52,7 +52,7 @@ export function IOSFieldView() {
               variant="outline"
               size="icon"
               onClick={resetTimer}
-              className="h-10 w-10 rounded-full"
+              className="h-12 w-12 rounded-full touch-target"
             >
               <RotateCcw className="h-5 w-5" />
             </Button>
@@ -62,7 +62,7 @@ export function IOSFieldView() {
             variant="outline"
             size="icon"
             onClick={() => setShowControls(true)}
-            className="h-10 w-10 rounded-full"
+            className="h-12 w-12 rounded-full touch-target"
           >
             <Maximize2 className="h-5 w-5" />
           </Button>
@@ -70,13 +70,13 @@ export function IOSFieldView() {
       </div>
 
       {/* Possession Buttons */}
-      <div className="px-4 py-3 bg-muted/30">
-        <div className="grid grid-cols-2 gap-3">
+      <div className="px-5 py-4 bg-muted/30">
+        <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
             size="lg"
             className={cn(
-              "h-16 rounded-2xl transition-all duration-200 flex items-center justify-center",
+              "h-20 rounded-2xl transition-all duration-200 flex items-center justify-center touch-target no-select",
               currentMatch.currentPossession === currentMatch.teamA.id && 
               "ring-2 ring-primary scale-105 bg-primary/10"
             )}
@@ -87,8 +87,8 @@ export function IOSFieldView() {
             onClick={() => useFutebolStore.getState().setPossession(currentMatch.teamA.id)}
           >
             <div className="text-center">
-              <div className="font-bold text-sm">{currentMatch.teamA.name}</div>
-              <div className="text-xs opacity-70">Posse de Bola</div>
+              <div className="font-bold text-base ios-text-fixed">{currentMatch.teamA.name}</div>
+              <div className="text-sm opacity-70 ios-text-fixed">Posse de Bola</div>
             </div>
           </Button>
           
@@ -96,7 +96,7 @@ export function IOSFieldView() {
             variant="outline"
             size="lg"
             className={cn(
-              "h-16 rounded-2xl transition-all duration-200 flex items-center justify-center",
+              "h-20 rounded-2xl transition-all duration-200 flex items-center justify-center touch-target no-select",
               currentMatch.currentPossession === currentMatch.teamB.id && 
               "ring-2 ring-primary scale-105 bg-primary/10"
             )}
@@ -107,15 +107,15 @@ export function IOSFieldView() {
             onClick={() => useFutebolStore.getState().setPossession(currentMatch.teamB.id)}
           >
             <div className="text-center">
-              <div className="font-bold text-sm">{currentMatch.teamB.name}</div>
-              <div className="text-xs opacity-70">Posse de Bola</div>
+              <div className="font-bold text-base ios-text-fixed">{currentMatch.teamB.name}</div>
+              <div className="text-sm opacity-70 ios-text-fixed">Posse de Bola</div>
             </div>
           </Button>
         </div>
       </div>
 
       {/* Field */}
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-5">
         <div className="h-full rounded-2xl overflow-hidden">
           <FieldGrid />
         </div>
@@ -127,7 +127,7 @@ export function IOSFieldView() {
         onClose={() => setShowControls(false)}
         title="Controles do Jogo"
       >
-        <div className="p-4">
+        <div className="p-5">
           <ActionPanel />
         </div>
       </IOSActionSheet>

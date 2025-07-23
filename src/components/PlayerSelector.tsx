@@ -12,28 +12,28 @@ interface PlayerSelectorProps {
 
 export function PlayerSelector({ team, action, onSelectPlayer, onCancel }: PlayerSelectorProps) {
   return (
-    <div className="bg-card rounded-2xl border border-border/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-border/50 flex items-center justify-between">
+    <div className="bg-card rounded-2xl border border-border/50 overflow-hidden shadow-lg">
+      <div className="px-5 py-4 border-b border-border/50 flex items-center justify-between min-h-[60px]">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl">{action.icon}</span>
-          <div>
-            <h3 className="font-semibold text-base">{action.name}</h3>
-            <p className="text-sm text-muted-foreground">Selecione o jogador</p>
+          <span className="text-3xl flex-shrink-0">{action.icon}</span>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-lg ios-text-fixed">{action.name}</h3>
+            <p className="text-sm text-muted-foreground ios-text-fixed">Selecione o jogador</p>
           </div>
         </div>
         <Button 
           variant="ghost" 
           size="icon" 
           onClick={onCancel}
-          className="h-8 w-8 rounded-full"
+          className="h-10 w-10 rounded-full touch-target flex-shrink-0"
         >
           <X className="h-5 w-5" />
         </Button>
       </div>
       
-      <div className="p-4">
+      <div className="p-5">
         {team.players.length > 0 ? (
-          <div className="grid grid-cols-3 gap-3 max-h-60 overflow-y-auto ios-scroll">
+          <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto ios-scroll">
             {team.players
               .sort((a, b) => a.number - b.number)
               .map((player) => (
@@ -42,27 +42,27 @@ export function PlayerSelector({ team, action, onSelectPlayer, onCancel }: Playe
                   variant="outline"
                   onClick={() => onSelectPlayer(player.id)}
                   className={cn(
-                    "h-20 rounded-2xl flex flex-col items-center justify-center p-2",
+                    "h-24 rounded-2xl flex flex-col items-center justify-center p-3 touch-target no-select",
                     "border-2 border-border/50 hover:border-primary/50",
                     "transition-all duration-200 active:scale-[0.95]"
                   )}
                 >
                   <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white mb-1"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-base font-bold text-white mb-2"
                     style={{ backgroundColor: team.colors.primary }}
                   >
                     {player.number}
                   </div>
-                  <span className="text-xs font-medium text-center leading-tight">
+                  <span className="text-sm font-medium text-center leading-tight ios-text-fixed">
                     {player.name.split(' ')[0]}
                   </span>
                 </Button>
               ))}
           </div>
         ) : (
-          <div className="text-center py-8">
+          <div className="text-center py-12">
             <User className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground ios-text-wrap">
               Nenhum jogador cadastrado para {team.name}
             </p>
           </div>

@@ -25,10 +25,10 @@ export function MatchSetup() {
 
   if (teams.length < 2) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-12">
         <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-        <h3 className="text-lg font-semibold mb-2">Times Insuficientes</h3>
-        <p className="text-muted-foreground text-sm">
+        <h3 className="text-xl font-semibold mb-3 ios-text-fixed">Times Insuficientes</h3>
+        <p className="text-muted-foreground text-base ios-text-wrap">
           Cadastre pelo menos 2 times para começar uma análise
         </p>
       </div>
@@ -36,12 +36,12 @@ export function MatchSetup() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
+    <div className="space-y-8">
+      <div className="space-y-6">
         <div>
-          <Label className="text-sm font-medium text-muted-foreground">Time A</Label>
+          <Label className="text-base font-medium text-muted-foreground ios-text-fixed">Time A</Label>
           <Select value={teamAId} onValueChange={setTeamAId}>
-            <SelectTrigger className="mt-2 h-12 rounded-xl">
+            <SelectTrigger className="mt-3 h-14 rounded-2xl text-base touch-target">
               <SelectValue placeholder="Selecione o Time A" />
             </SelectTrigger>
             <SelectContent>
@@ -49,10 +49,10 @@ export function MatchSetup() {
                 <SelectItem key={team.id} value={team.id}>
                   <div className="flex items-center space-x-3">
                     <div 
-                      className="w-4 h-4 rounded-full"
+                      className="w-5 h-5 rounded-full flex-shrink-0"
                       style={{ backgroundColor: team.colors.primary }}
                     />
-                    <span>{team.name}</span>
+                    <span className="ios-text-fixed">{team.name}</span>
                   </div>
                 </SelectItem>
               ))}
@@ -61,9 +61,9 @@ export function MatchSetup() {
         </div>
 
         <div>
-          <Label className="text-sm font-medium text-muted-foreground">Time B</Label>
+          <Label className="text-base font-medium text-muted-foreground ios-text-fixed">Time B</Label>
           <Select value={teamBId} onValueChange={setTeamBId}>
-            <SelectTrigger className="mt-2 h-12 rounded-xl">
+            <SelectTrigger className="mt-3 h-14 rounded-2xl text-base touch-target">
               <SelectValue placeholder="Selecione o Time B" />
             </SelectTrigger>
             <SelectContent>
@@ -71,10 +71,10 @@ export function MatchSetup() {
                 <SelectItem key={team.id} value={team.id}>
                   <div className="flex items-center space-x-3">
                     <div 
-                      className="w-4 h-4 rounded-full"
+                      className="w-5 h-5 rounded-full flex-shrink-0"
                       style={{ backgroundColor: team.colors.primary }}
                     />
-                    <span>{team.name}</span>
+                    <span className="ios-text-fixed">{team.name}</span>
                   </div>
                 </SelectItem>
               ))}
@@ -87,7 +87,7 @@ export function MatchSetup() {
         onClick={handleStartMatch}
         size="lg"
         className={cn(
-          "w-full h-14 rounded-2xl text-base font-semibold",
+          "w-full h-16 rounded-2xl text-lg font-semibold touch-target no-select",
           "bg-primary hover:bg-primary/90 text-primary-foreground",
           "disabled:opacity-50 disabled:cursor-not-allowed",
           "transition-all duration-200 active:scale-[0.98]"
@@ -95,8 +95,8 @@ export function MatchSetup() {
         disabled={!teamAId || !teamBId}
       >
         <Play className="h-5 w-5 mr-3" />
-        Iniciar Análise
-        <ChevronRight className="h-5 w-5 ml-3" />
+        <span className="ios-text-fixed">Iniciar Análise</span>
+        <ChevronRight className="h-6 w-6 ml-3" />
       </Button>
     </div>
   )
