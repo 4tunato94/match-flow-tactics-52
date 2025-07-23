@@ -105,31 +105,17 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Field colors */
-    --field-green: 120 45% 25%;
-    --field-grass: 120 40% 30%;
-    --field-grass-dark: 120 35% 22%;
     --field-line: 0 0% 100%;
     --zone-hover: 120 50% 85%;
     --zone-active: 45 80% 70%;
-    --zone-marked: 220 80% 70%;
+    --zone-marked: 220 100% 50%;
 
     /* Team colors */
     --team-a: 220 100% 50%;
     --team-b: 0 100% 50%;
 
-    /* Gradients */
-    --gradient-field: linear-gradient(135deg, hsl(120 45% 25%), hsl(120 40% 30%));
-    --gradient-grass: repeating-linear-gradient(
-      90deg,
-      hsl(120 40% 30%) 0px,
-      hsl(120 35% 22%) 20px,
-      hsl(120 40% 30%) 40px
-    );
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-stats: linear-gradient(180deg, hsl(var(--background)), hsl(210 40% 98%));
-
     /* Shadows */
-    --shadow-field: 0 8px 32px hsl(120 60% 25% / 0.3);
+    --shadow-field: 0 8px 32px rgba(0, 0, 0, 0.3);
     --shadow-card: 0 4px 12px hsl(0 0% 0% / 0.1);
     --shadow-button: 0 2px 8px hsl(var(--primary) / 0.2);
 
