@@ -117,6 +117,15 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
 			}
+		},
+		screens: {
+			'xs': '475px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',
+			'xl': '1280px',
+			'2xl': '1400px',
+			'ios': { 'raw': '(max-width: 767px) and (-webkit-min-device-pixel-ratio: 2)' }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

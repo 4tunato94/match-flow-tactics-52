@@ -1,151 +1,100 @@
 
-import { useState } from 'react'
-import { Maximize, Minimize, Settings, Home, History, Zap } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Settings, Home, History, Zap, Users, BarChart3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useFutebolStore } from '@/stores/futebolStore'
 import { TeamManager } from '@/components/TeamManager'
 import { MatchSetup } from '@/components/MatchSetup'
-import { FieldGrid } from '@/components/FieldGrid'
-import { PossessionControl } from '@/components/PossessionControl'
-import { ActionPanel } from '@/components/ActionPanel'
-import { SlidingPanel } from '@/components/SlidingPanel'
 import { StatsHeatMapTabs } from '@/components/StatsHeatMapTabs'
 import { GameHistory } from '@/components/GameHistory'
 import { ActionTypeManager } from '@/components/ActionTypeManager'
-import { ThemeToggle } from '@/components/ThemeToggle'
+import { IOSHeader } from '@/components/IOSHeader'
+import { IOSTabBar } from '@/components/IOSTabBar'
+import { IOSCard } from '@/components/IOSCard'
+import { IOSFieldView } from '@/components/IOSFieldView'
 
 const Index = () => {
-  const { appState, currentMatch, endMatch, setAppState, loadSavedGame } = useFutebolStore()
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  const { appState, currentMatch, endMatch, setAppState } = useFutebolStore()
+  const [activeTab, setActiveTab] = useState('setup')
+
+  // Prevent zoom on iOS
+  useEffect(() => {
+    const preventDefault = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault()
+      }
+    }
+    
+    document.addEventListener('touchstart', preventDefault, { passive: false })
+    document.addEventListener('touchmove', preventDefault, { passive: false })
+    
+    return () => {
+      document.removeEventListener('touchstart', preventDefault)
+      document.removeEventListener('touchmove', preventDefault)
+    }
+  }, [])
 
   if (appState === 'playing' && currentMatch) {
     return (
-      <div className="min-h-screen bg-gradient-stats">
-        {isFullscreen ? (
-          // Modo Tela Cheia Otimizado para Mobile
-          <div className="fixed inset-0 bg-field-green z-50 flex flex-col overflow-hidden">
-            <div className="absolute top-2 right-2 z-10 flex gap-2">
-              <ThemeToggle />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setIsFullscreen(false)}
-                className="bg-white/20 backdrop-blur-sm"
-              >
-                <Minimize className="h-4 w-4" />
-              </Button>
-            </div>
-            {/* Container principal otimizado para mobile em paisagem */}
-            <div className="flex-1 relative overflow-hidden">
-              <div className="absolute inset-0 p-1 landscape:p-0">
-                <div className="w-full h-full flex items-center justify-center">
-                  {/* Campo com scroll horizontal em mobile paisagem */}
-                  <div className="w-full h-full landscape:w-[150%] landscape:h-[120%] landscape:max-w-[150vw] landscape:max-h-[120vh] overflow-auto">
-                    <FieldGrid isFullscreen />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Painel lateral deslizante otimizado para mobile com scroll */}
-            <SlidingPanel isFullscreen={true}>
-              <div className="space-y-4 h-full overflow-y-auto pb-4">
-                <PossessionControl />
-                <ActionPanel />
-                {currentMatch && <StatsHeatMapTabs game={currentMatch} />}
-              </div>
-            </SlidingPanel>
-          </div>
-        ) : (
-          // Modo Normal
-          <div className="container mx-auto p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-3xl font-bold">FutebolStats</h1>
-                <p className="text-muted-foreground">
-                  {currentMatch.teamA.name} vs {currentMatch.teamB.name}
-                </p>
-              </div>
-              <div className="flex space-x-2">
-                <ThemeToggle />
-                <Button
-                  variant="outline"
-                  onClick={() => setIsFullscreen(true)}
-                >
-                  <Maximize className="h-4 w-4 mr-2" />
-                  Tela Cheia
-                </Button>
-                <Button variant="outline" onClick={endMatch}>
-                  <Home className="h-4 w-4 mr-2" />
-                  Finalizar
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <div className="lg:col-span-3">
-                <FieldGrid />
-              </div>
-              <div className="space-y-6">
-                <PossessionControl />
-                <ActionPanel />
-              </div>
-            </div>
-          </div>
-        )}
+      <div className="min-h-screen bg-background flex flex-col">
+        <IOSHeader
+          title="Partida"
+          subtitle={`${currentMatch.teamA.name} vs ${currentMatch.teamB.name}`}
+          onBack={endMatch}
+        />
+        
+        <div className="flex-1 overflow-hidden">
+          <IOSFieldView />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-stats">
-      <div className="container mx-auto p-6">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <h1 className="text-4xl font-bold">⚽ FutebolStats</h1>
-            <ThemeToggle />
-          </div>
-          <p className="text-xl text-muted-foreground">Análise Tática em Tempo Real</p>
+    <div className="min-h-screen bg-background flex flex-col">
+      <IOSHeader
+        title="⚽ FutebolStats"
+        subtitle="Análise Tática em Tempo Real"
+      />
+      
+      <div className="flex-1 overflow-y-auto pb-20">
+        <div className="p-4 space-y-4">
+          {activeTab === 'setup' && (
+            <IOSCard title="Iniciar Partida" icon={<Home className="h-5 w-5 text-primary" />}>
+              <MatchSetup />
+            </IOSCard>
+          )}
+          
+          {activeTab === 'teams' && (
+            <IOSCard title="Gerenciar Times" icon={<Users className="h-5 w-5 text-primary" />}>
+              <TeamManager />
+            </IOSCard>
+          )}
+          
+          {activeTab === 'actions' && (
+            <IOSCard title="Ações do Jogo" icon={<Zap className="h-5 w-5 text-primary" />}>
+              <ActionTypeManager />
+            </IOSCard>
+          )}
+          
+          {activeTab === 'stats' && currentMatch && (
+            <IOSCard title="Estatísticas" icon={<BarChart3 className="h-5 w-5 text-primary" />}>
+              <StatsHeatMapTabs game={currentMatch} />
+            </IOSCard>
+          )}
+          
+          {activeTab === 'history' && (
+            <IOSCard title="Histórico de Jogos" icon={<History className="h-5 w-5 text-primary" />}>
+              <GameHistory />
+            </IOSCard>
+          )}
         </div>
-
-        <Tabs defaultValue="setup" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="setup">
-              <Home className="h-4 w-4 mr-2" />
-              Iniciar
-            </TabsTrigger>
-            <TabsTrigger value="teams">
-              <Settings className="h-4 w-4 mr-2" />
-              Times
-            </TabsTrigger>
-            <TabsTrigger value="actions">
-              <Zap className="h-4 w-4 mr-2" />
-              Ações
-            </TabsTrigger>
-            <TabsTrigger value="history">
-              <History className="h-4 w-4 mr-2" />
-              Histórico
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="setup">
-            <MatchSetup />
-          </TabsContent>
-
-          <TabsContent value="teams">
-            <TeamManager />
-          </TabsContent>
-
-          <TabsContent value="actions">
-            <ActionTypeManager />
-          </TabsContent>
-
-          <TabsContent value="history">
-            <GameHistory />
-          </TabsContent>
-        </Tabs>
       </div>
+      
+      <IOSTabBar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Target } from 'lucide-react'
+import { Target, Grid3X3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useFutebolStore } from '@/stores/futebolStore'
 import { ActionType } from '@/types/futebol'
 import { PlayerSelector } from './PlayerSelector'
+import { cn } from '@/lib/utils'
 
 export function ActionPanel() {
   const { currentMatch, actionTypes, addAction } = useFutebolStore()
@@ -114,39 +114,42 @@ export function ActionPanel() {
 
   return (
     <div className="space-y-4">
-      <Card className="shadow-card">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Target className="h-5 w-5 mr-2" />
-            Ações Específicas
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent>
-          {currentMatch.currentPossession ? (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-2">
-                {actionTypes.map((actionType) => (
-                  <Button
-                    key={actionType.id}
-                    variant="action"
-                    size="sm"
-                    onClick={() => handleActionClick(actionType)}
-                    className="flex flex-col items-center justify-center p-2 h-16 text-center"
-                  >
-                    <span className="text-base">{actionType.icon}</span>
-                    <span className="text-xs leading-tight truncate w-full">{actionType.name}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground text-center">
-              Selecione a posse de bola para registrar ações
-            </p>
-          )}
-        </CardContent>
-      </Card>
+      {currentMatch.currentPossession ? (
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2 mb-3">
+            <Grid3X3 className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold">Ações Específicas</h3>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3">
+            {actionTypes.map((actionType) => (
+              <Button
+                key={actionType.id}
+                variant="outline"
+                onClick={() => handleActionClick(actionType)}
+                className={cn(
+                  "h-20 rounded-2xl flex flex-col items-center justify-center p-3",
+                  "border-2 border-border/50 hover:border-primary/50",
+                  "transition-all duration-200 active:scale-[0.95]",
+                  "bg-card hover:bg-accent"
+                )}
+              >
+                <span className="text-2xl mb-1">{actionType.icon}</span>
+                <span className="text-xs font-medium text-center leading-tight">
+                  {actionType.name}
+                </span>
+              </Button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <Target className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
+          <p className="text-sm text-muted-foreground">
+            Selecione a posse de bola para registrar ações
+          </p>
+        </div>
+      )}
 
       {/* Seletor de Jogador */}
       {selectedAction && teamForPlayerSelection && (

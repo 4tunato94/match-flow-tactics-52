@@ -1,7 +1,7 @@
 import { User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Team, ActionType } from '@/types/futebol'
+import { cn } from '@/lib/utils'
 
 interface PlayerSelectorProps {
   team: Team
@@ -12,50 +12,62 @@ interface PlayerSelectorProps {
 
 export function PlayerSelector({ team, action, onSelectPlayer, onCancel }: PlayerSelectorProps) {
   return (
-    <Card className="shadow-card border-action">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base flex items-center">
-            <span className="text-lg mr-2">{action.icon}</span>
-            {action.name} - Selecione o jogador
-          </CardTitle>
-          <Button variant="ghost" size="icon" onClick={onCancel}>
-            <X className="h-4 w-4" />
-          </Button>
+    <div className="bg-card rounded-2xl border border-border/50 overflow-hidden">
+      <div className="px-4 py-3 border-b border-border/50 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <span className="text-2xl">{action.icon}</span>
+          <div>
+            <h3 className="font-semibold text-base">{action.name}</h3>
+            <p className="text-sm text-muted-foreground">Selecione o jogador</p>
+          </div>
         </div>
-      </CardHeader>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={onCancel}
+          className="h-8 w-8 rounded-full"
+        >
+          <X className="h-5 w-5" />
+        </Button>
+      </div>
       
-      <CardContent>
+      <div className="p-4">
         {team.players.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+          <div className="grid grid-cols-3 gap-3 max-h-60 overflow-y-auto ios-scroll">
             {team.players
               .sort((a, b) => a.number - b.number)
               .map((player) => (
                 <Button
                   key={player.id}
                   variant="outline"
-                  size="sm"
                   onClick={() => onSelectPlayer(player.id)}
-                  className="justify-center h-16"
+                  className={cn(
+                    "h-20 rounded-2xl flex flex-col items-center justify-center p-2",
+                    "border-2 border-border/50 hover:border-primary/50",
+                    "transition-all duration-200 active:scale-[0.95]"
+                  )}
                 >
                   <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white"
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white mb-1"
                     style={{ backgroundColor: team.colors.primary }}
                   >
                     {player.number}
                   </div>
+                  <span className="text-xs font-medium text-center leading-tight">
+                    {player.name.split(' ')[0]}
+                  </span>
                 </Button>
               ))}
           </div>
         ) : (
-          <div className="text-center py-6">
-            <User className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+          <div className="text-center py-8">
+            <User className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
             <p className="text-sm text-muted-foreground">
               Nenhum jogador cadastrado para {team.name}
             </p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
